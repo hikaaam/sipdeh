@@ -17,15 +17,16 @@ class PdfList extends Component {
   }
 
 componentDidMount(){
-    let value =  this.props.route.params.item
-   let data1 = this.props.route.params.data
+    let value =  this.props.route.params.item;
+   let data1 = this.props.route.params.data;
+   let peraturan = this.props.route.params.per;
   let data  = data1[value]
     this.setState({
       isLoading:false,
       dataSource:data
       
     });
-    if(data[0].PdfPath.substr(0,5)=='Perda'){
+    if(peraturan=='perda'){
       this.setState(
         {
           per:'Daerah'

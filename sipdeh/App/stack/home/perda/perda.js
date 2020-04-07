@@ -51,7 +51,8 @@ for(var i=0;i<array.length;i++){
    return(
      <TouchableOpacity style={s.BodyItems} onPress={()=>{this.props.navigation.navigate('pdflist',{
       data:this.state.dataSource[i],
-      item:value[0]
+      item:value[0],
+      per:'perda'
     })}}>
         <View style={s.IconContainer}>
         <Icon name='list' size={30} color='white' />

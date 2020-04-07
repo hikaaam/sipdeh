@@ -82,7 +82,7 @@ export default class test extends Component {
                 }><Text style={{color:'white',backgroundColor:'#000000aa',fontSize:14}}>{percentage}</Text></View>
                 <Text
                 style={{marginLeft:90,fontSize:22,marginTop:20}}
-                >Perbup {text} </Text>
+                >Perda {text} </Text>
                 </TouchableOpacity>
               )
         });
