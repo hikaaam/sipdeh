@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet} from 'react-native';
+import db from './db';
 
 
 
@@ -11,8 +12,10 @@ class splash extends Component {
   }
 
   componentDidMount(){
+    
     setTimeout(() => {
-        this.props.navigation.replace('home');
+        // this.props.navigation.replace('home');
+        db.getdarkmode(this.props.navigation)
   }, 2000);
   }
 
@@ -23,6 +26,7 @@ class splash extends Component {
         style={styles.stretch}
         source={require('../assets/images/logo.png')}
       />
+
       </View>
     );
   }
@@ -37,8 +41,8 @@ const styles = StyleSheet.create({
     flex:1
   },
   stretch: {
-    width: Dimensions.get('screen').width/1.1,
-    height: Dimensions.get('screen').height/1.1,
+    width: Dimensions.get('screen').width/3,
+    height: Dimensions.get('screen').width/3,
     resizeMode: 'stretch',
     borderRadius:20
   },

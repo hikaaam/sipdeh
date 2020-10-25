@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage, Dimensions, Image } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 
-
 // classes
 import Splash from './App/splash';
-import Login from './App/stack/login';
-import Home from './App/stack/home/home';
-import Profile from './App/stack/profile';
-import Perda from './App/stack/home/perda/perda';
-import Pie from './App/stack/home/perda/pie';
-import Pie2 from './App/stack/home/perbup/pie';
-import Perbup from './App/stack/home/perbup/perbup';
-import Penyusunan from './App/stack/home/penyusunan/penyusunan';
-import Detail_penyusunan from './App/stack/home/penyusunan/penyusunan_detail';
-import Pdf_list from './App/stack/home/perbup/pdfList';
-import Pdf_view from './App/stack/home/perbup/pdf';
+import Login from './App/new/login';
+import Home from './App/new/home/home';
+import Profile from './App/new/profile';
+import Perda from './App/new/home/perda/perda';
+import Pie from './App/new/home/perda/pie';
+import Pie2 from './App/new/home/perbup/pie';
+import Perbup from './App/new/home/perbup/perbup';
+import Penyusunan from './App/new/home/penyusunan/penyusunan';
+import Detail_penyusunan from './App/new/home/penyusunan/penyusunan_detail';
+import Pdf_list from './App/new/home/perbup/pdfList';
+import Pdf_view from './App/new/home/perbup/pdf';
+import pdf_editor from './App/new/pdfviewer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import db from './App/db';
+import notifikasi from './App/new/notifikasi';
 const Stack = createStackNavigator();
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      heigth: Dimensions.get("window").height,
+      width: Dimensions.get("window").width
     };
   }
 
@@ -35,6 +38,20 @@ class App extends Component {
         <Stack.Navigator
           screenOptions={({ navigation }) => (
             {
+              headerStyle: {
+                backgroundColor: db.state.lightheader,
+                height: this.state.heigth / 12,
+                elevation: 0,
+                shadowOpacity: 0,
+                borderBottomWidth: 0,
+              },
+              headerLeft: props =>(
+                <Icon name="chevron-left"
+                      onPress={() => navigation.goBack(null)}
+                      size={35} color="white" style={{
+                        marginLeft:20
+                      }}/>
+             ),
               headerRight: () => (
                 <TouchableOpacity
                   style={
@@ -42,30 +59,34 @@ class App extends Component {
                       marginRight: 20
                     }}
                   onPress={() => {
-                    try {
-                      (async () => {
+                    // try {
+                    //   (async () => {
 
-                        await AsyncStorage.getItem('profile').then((value) => {
-                          if (value) {
-                            console.log(value);
-                            navigation.navigate('profile');
-                          }
-                          else {
-                            console.log(value);
-                            navigation.navigate('login');
-                          }
+                    //     await AsyncStorage.getItem('profile').then((value) => {
+                    //       if (value) {
+                    //         console.log(value);
+                    //         navigation.navigate('profile');
+                    //       }
+                    //       else {
+                    //         console.log(value);
+                    //         navigation.navigate('login');
+                    //       }
 
-                        });
-                      })();
-                    }
-                    catch{
+                    //     });
+                    //   })();
+                    // }
+                    // catch{
 
-                    }
-
-
+                    // }
                   }}
                 >
-                  <Icon name='user' size={35} color="white" />
+                  <Image
+                    style={{
+                      width: db.state.width / 10,
+                      height: db.state.width / 10
+                    }}
+                    source={require('./assets/images/logo.png')}
+                  />
                 </TouchableOpacity>
               ),
               headerTitleStyle: { color: 'white' },
@@ -82,64 +103,103 @@ class App extends Component {
           />
 
           <Stack.Screen name='home' component={Home}
-            options={
-              ({
-                headerTitle: props => 
-                <View style={{
-                  justifyContent:'center'
-                }}>
-                  <Text style={{
-                  fontSize: 20,
+          options={
+            ({
+              headerTitle: props =>
+              <View style={{
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                marginLeft: 10
+              }}>
+                <Text style={{
+                  fontSize: this.state.width / 19,
                   fontWeight: 'bold',
+                  fontFamily: "roboto",
                   color: 'white'
-                  }}>SIPDEH</Text>
-                  <Text 
+                }}>SIPDEH!</Text>
+                <Text
                   style={{
-                    color:'white',
-                    fontWeight:'bold'
+                    color: 'white',
+                    fontWeight: 'bold'
                   }}
-                  >Sistem Informasi Produk Hukum Daerah</Text>
-                </View>,
-                // headerTitleStyle: {
-                //   fontSize: 25,
-                //   fontWeight: 'bold',
-                //   color: 'white'
-                // },
-                headerStyle: {
-                  backgroundColor: 'red'
-                },
-
-              })
-            }
+                >Bagian Hukum Setda Brebes</Text>
+              </View>,
+            headerLeft: props =>
+              <Image
+                style={{
+                  width: db.state.width / 10,
+                  height: db.state.width / 10,
+                  marginLeft: 20
+                }}
+                source={require('./assets/images/Brebes.png')}
+              />
+            })
+          }
           />
           <Stack.Screen name='login' component={Login} options={
             ({
-              headerTitle: 'Login',
-              headerTitleStyle: {
-                fontSize: 25,
-                fontWeight: 'bold',
-                color: 'white'
-              },
-              headerStyle: {
-                backgroundColor: '#4dabf5'
-              },
-              headerRight:false
+              headerTitle: props =>
+                <View style={{
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  marginLeft: 10
+                }}>
+                  <Text style={{
+                    fontSize: this.state.width / 19,
+                    fontWeight: 'bold',
+                    fontFamily: "roboto",
+                    color: 'white'
+                  }}>SIPDEH!</Text>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold'
+                    }}
+                  >Bagian Hukum Setda Brebes</Text>
+                </View>,
+              headerLeft: props =>
+                <Image
+                  style={{
+                    width: db.state.width / 10,
+                    height: db.state.width / 10,
+                    marginLeft: 20
+                  }}
+                  source={require('./assets/images/Brebes.png')}
+                />
 
             })
           } />
           <Stack.Screen name='profile' component={Profile}
             options={
               ({
-                headerTitle: 'Profile',
-                headerTitleStyle: {
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  color: 'white'
-                },
-                headerStyle: {
-                  backgroundColor: '#4dabf5'
-                },
-                headerRight:false
+                headerTitle: props =>
+                <View style={{
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  marginLeft: 10
+                }}>
+                  <Text style={{
+                    fontSize: this.state.width / 19,
+                    fontWeight: 'bold',
+                    fontFamily: "roboto",
+                    color: 'white'
+                  }}>SIPDEH!</Text>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold'
+                    }}
+                  >Bagian Hukum Setda Brebes</Text>
+                </View>,
+              headerLeft: props =>
+                <Image
+                  style={{
+                    width: db.state.width / 10,
+                    height: db.state.width / 10,
+                    marginLeft: 20
+                  }}
+                  source={require('./assets/images/Brebes.png')}
+                />
               })
             }
           />
@@ -152,9 +212,7 @@ class App extends Component {
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: '#2c91e1'
-                },
+
 
               })
             }
@@ -168,9 +226,7 @@ class App extends Component {
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: '#2c91e1'
-                },
+
 
               })
             }
@@ -178,15 +234,13 @@ class App extends Component {
           <Stack.Screen name='pie' component={Pie}
             options={
               ({
-                headerTitle: 'Analysis Perda',
+                headerTitle: 'Statistik',
                 headerTitleStyle: {
-                  fontSize: 20,
+                  fontSize: 25,
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: '#2c91e1'
-                },
+
 
               })
             }
@@ -200,9 +254,7 @@ class App extends Component {
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: '#2c91e1'
-                },
+
 
               })
             }
@@ -210,15 +262,69 @@ class App extends Component {
           <Stack.Screen name='penyusunan' component={Penyusunan}
             options={
               ({
-                headerTitle: 'Penyusunan',
-                headerTitleStyle: {
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  color: 'white'
-                },
-                headerStyle: {
-                  backgroundColor: '#2c91e1'
-                },
+                headerTitle: props =>
+                <View style={{
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  marginLeft: 10
+                }}>
+                  <Text style={{
+                    fontSize: this.state.width / 19,
+                    fontWeight: 'bold',
+                    fontFamily: "roboto",
+                    color: 'white'
+                  }}>SIPDEH!</Text>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold'
+                    }}
+                  >Bagian Hukum Setda Brebes</Text>
+                </View>,
+              headerLeft: props =>
+                <Image
+                  style={{
+                    width: db.state.width / 10,
+                    height: db.state.width / 10,
+                    marginLeft: 20
+                  }}
+                  source={require('./assets/images/Brebes.png')}
+                />
+
+              })
+            }
+          />
+           <Stack.Screen name='notifikasi' component={notifikasi}
+            options={
+              ({
+                headerTitle: props =>
+                <View style={{
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  marginLeft: 10
+                }}>
+                  <Text style={{
+                    fontSize: this.state.width / 19,
+                    fontWeight: 'bold',
+                    fontFamily: "roboto",
+                    color: 'white'
+                  }}>SIPDEH!</Text>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: 'bold'
+                    }}
+                  >Bagian Hukum Setda Brebes</Text>
+                </View>,
+              headerLeft: props =>
+                <Image
+                  style={{
+                    width: db.state.width / 10,
+                    height: db.state.width / 10,
+                    marginLeft: 20
+                  }}
+                  source={require('./assets/images/Brebes.png')}
+                />
 
               })
             }
@@ -232,9 +338,7 @@ class App extends Component {
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: 'green'
-                },
+
 
               })
             }
@@ -242,15 +346,13 @@ class App extends Component {
           <Stack.Screen name='pdflist' component={Pdf_list}
             options={
               ({
-                headerTitle: 'Pdf List',
+                headerTitle: 'List Peraturan',
                 headerTitleStyle: {
                   fontSize: 25,
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: 'green'
-                },
+
 
               })
             }
@@ -258,15 +360,27 @@ class App extends Component {
           <Stack.Screen name='pdfview' component={Pdf_view}
             options={
               ({
-                headerTitle: 'Pdf View',
+                headerTitle: 'Detail Peraturan',
                 headerTitleStyle: {
                   fontSize: 25,
                   fontWeight: 'bold',
                   color: 'white'
                 },
-                headerStyle: {
-                  backgroundColor: 'green'
+
+
+              })
+            }
+          />
+          <Stack.Screen name='pdfeditor' component={pdf_editor}
+            options={
+              ({
+                headerTitle: 'Baca Peraturan',
+                headerTitleStyle: {
+                  fontSize: 25,
+                  fontWeight: 'bold',
+                  color: 'white'
                 },
+
 
               })
             }

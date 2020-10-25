@@ -5,6 +5,7 @@ import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import Moment from 'moment';
 
 import { TextInput } from 'react-native-gesture-handler';
+import db from '../../../db';
 
 var s = require('../../../../assets/styles/perda');
 class Penyusunan extends Component {
@@ -107,8 +108,8 @@ class Penyusunan extends Component {
             <View style={{flex:1,height:Dimensions.get('window').height}}>   
             <ScrollView >
             <View style={{ flex: 1, alignItems:'center',justifyContent:'center'}}>
-                      {this.tampilan(this.state.dataSource)}
-                
+                    {db.renderHeader}
+                      {this.tampilan(this.state.dataSource)}        
                  <Modal
                     animationType="slide"
                     transparent={true}

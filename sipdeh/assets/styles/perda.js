@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import db from '../../App/db';
 
 module.exports = StyleSheet.create(
     {
@@ -10,15 +11,16 @@ module.exports = StyleSheet.create(
             // paddingHorizontal:10,
             paddingVertical:20,
             borderBottomColor:'#999',
-            borderBottomWidth:1.2
+            borderBottomWidth:1.2,
+            backgroundColor:db.state.darkmode?db.state.lightbox:db.state.darkbox
         },
         IconContainer:{
-            width:45,
-            height:45,
+            width:55,
+            height:55,
             justifyContent:'center',
             flexDirection:'column',
             alignItems:'center',
-            backgroundColor:'#fc9a00',
+            backgroundColor:db.state.iconRed,
             borderRadius:100,
             marginHorizontal:15
         },
@@ -31,17 +33,18 @@ module.exports = StyleSheet.create(
         TextTitle:{
             fontWeight:'bold',
             fontSize:20,
-            color:'#111'
+            color:db.state.darkmode?"#111":"white"
         },
         Text:{
             fontSize:17,
             color:'#888'
         },
         Number:{
-            color:'white',
+            color:db.state.darkmode?"black":"white",
+            fontWeight:'bold'
         },
         NumberContainer:{
-           backgroundColor:'green' ,
+        //    backgroundColor:db.state.darkmode?db.state.lightheader:db.state.lightbox ,
            height:32,
            width:32,
            flexDirection:'column',
@@ -51,6 +54,14 @@ module.exports = StyleSheet.create(
            position:'absolute',
            right:15,
            top:20
+        },
+        bold:{
+            fontWeight:"bold",
+            fontSize:db.state.width/28,
+            color:db.state.darkmode?"black":"white"
+        },
+        textSamar:{
+            color:"#666"
         }
     }
 )
