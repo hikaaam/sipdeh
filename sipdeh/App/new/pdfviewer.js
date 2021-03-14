@@ -251,11 +251,12 @@ class pdfviewer extends Component {
                                 }}
                             >
                                 <View style={{ width: 35, height: 35, margin: 10, marginBottom: 0, borderRadius: 100,  }}>
-                                    <Icon name="arrow-left" size={35} color="red" />
+                                    <Icon name="arrow-left" size={db.state.width/18} color="red" />
                                 </View>
                                 <Text style={{
                                     color:this.state.border,
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize:db.state.width/38,
                                 }}>Prev Page</Text>
 
                             </TouchableOpacity>
@@ -272,11 +273,12 @@ class pdfviewer extends Component {
                                 }
                             >
                                 <View style={{ width: 35, height: 35, margin: 10, marginBottom: 0, borderRadius: 100, }}>
-                                    <Icon name="download" size={35} color="green" />
+                                    <Icon name="download" size={db.state.width/18} color="green" />
                                 </View>
                                 <Text style={{
                                     color:this.state.border,
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize:db.state.width/38,
                                 }}>Download</Text>
 
                             </TouchableOpacity>
@@ -291,11 +293,12 @@ class pdfviewer extends Component {
                                 }}
                             >
                                 <View style={{ width: 35, height: 35, margin: 10, marginBottom: 0, borderRadius: 100, }}>
-                                    <Icon name="search" size={35} color={db.state.lightheader} />
+                                    <Icon name="search" size={db.state.width/18} color={db.state.lightheader} />
                                 </View>
                                 <Text style={{
                                     color:this.state.border,
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize:db.state.width/38,
                                 }}>Ke halaman</Text>
 
                             </TouchableOpacity>
@@ -312,11 +315,12 @@ class pdfviewer extends Component {
                                 }
                             >
                                 <View style={{ width: 38, height: 38, margin: 10, marginBottom: 0, borderRadius: 100, justifyContent: 'center', alignItems: 'center' }}>
-                                    <Icon2 name={!this.state.isHorizontal ? "document" : "document-landscape"} size={28} color="green" />
+                                    <Icon2 name={!this.state.isHorizontal ? "document" : "document-landscape"} size={db.state.width/20} color="green" />
                                 </View>
                                 <Text style={{
                                     color:this.state.border,
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize:db.state.width/38,
                                 }}>{!this.state.isHorizontal ? "Potrait" : "Horizontal"}</Text>
 
                             </TouchableOpacity>
@@ -331,11 +335,12 @@ class pdfviewer extends Component {
                                 }}
                             >
                                 <View style={{ width: 35, height: 35, margin: 10, marginBottom: 0, borderRadius: 100,  }}>
-                                    <Icon name="arrow-right" size={35} color="red" />
+                                    <Icon name="arrow-right" size={db.state.width/18} color="red" />
                                 </View>
                                 <Text style={{
                                     color:this.state.border,
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize:db.state.width/38,
                                 }}>Next Page</Text>
 
                             </TouchableOpacity>

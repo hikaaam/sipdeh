@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView, ActivityIndicator,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import db from '../../../db';
 
 
 var s = require('../../../../assets/styles/perda');
@@ -57,7 +58,7 @@ isiperbup(data){
           width:"90%",
       }}>
             <Text style={{
-                fontSize:17,
+                fontSize: db.state.width/25,
                 fontFamily:"serif",
                 fontWeight:"normal",
                 fontStyle:"italic"

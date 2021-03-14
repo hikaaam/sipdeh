@@ -21,7 +21,8 @@ export default class test extends Component {
             background: db.state.darkmode ? db.state.lightbg : db.state.darkbg,
             box: db.state.darkmode ? db.state.lightbox : db.state.darkbox,
             border: !db.state.darkmode ? db.state.lightbox : db.state.darkbox,
-            rgba: db.state.darkmode ? "rgb(73, 80, 87)" : db.state.lightbox
+            rgba: db.state.darkmode ? "rgb(73, 80, 87)" : db.state.lightbox,
+            Error:false
         }
 
     }
@@ -176,6 +177,11 @@ export default class test extends Component {
                     dataSource2: responseJson[0]['perbup'][0]['tahun']
                 })
                 // console.log(responseJson[1]['perda'][0]['tahun'][0])
+            }).catch((error)=>{
+                this.setState({
+                    isLoading:false,
+                    Error:true
+                })
             })
     }
 
@@ -303,6 +309,11 @@ export default class test extends Component {
         }
 
         else {
+            if(this.state.Error){
+                return(
+                    db.renderError(this.props.navigation)
+                )
+            }
             return (
                 <View style={{
                     flex: 1,

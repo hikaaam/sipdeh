@@ -17,7 +17,8 @@ class pdf extends Component {
       background: db.state.darkmode?db.state.lightbg:db.state.darkbg,
       box: db.state.darkmode?db.state.lightbox:db.state.darkbox,
       border: !db.state.darkmode?db.state.lightbox:db.state.darkbox,
-      rgba:db.state.darkmode?"rgb(73, 80, 87)":db.state.lightbox
+      rgba:db.state.darkmode?"rgb(73, 80, 87)":db.state.lightbox,
+      Error:false
 
     
     };
@@ -43,7 +44,12 @@ class pdf extends Component {
           }
         )
 
-      });
+      }).catch((error)=>{
+        this.setState({
+          isLoading:false,
+          Error:true
+        })
+      })
 
   }
   render() {
@@ -55,6 +61,11 @@ class pdf extends Component {
       )
     }
     else {
+      if(this.state.Error){
+        return(
+          db.renderError(this.props.navigation)
+        )
+      }
       return (
 
         <View style={{
@@ -135,7 +146,10 @@ class pdf extends Component {
                       justifyContent: 'center',
                       alignItems: 'flex-start'
                     }}>
-                      <Text style={s.bold}>Dilihat</Text>
+                      <Text style={{
+                        color:this.state.border,
+                        fontSize:db.state.width/30
+                      }}>Dilihat</Text>
                       <Text style={s.textSamar}> {this.state.data["hits"]} </Text>
                     </View>
                   </View>
@@ -164,7 +178,10 @@ class pdf extends Component {
                       justifyContent: 'center',
                       alignItems: 'flex-start'
                     }}>
-                      <Text style={s.bold}>Kategori</Text>
+                      <Text style={{
+                        color:this.state.border,
+                        fontSize:db.state.width/30
+                      }}>Kategori</Text>
                       <Text style={s.textSamar}> {(this.state.data["id_kat"] == 1) ? "Peraturan Daerah" : "Peraturan Bupati"} </Text>
                     </View>
                   </View>
@@ -197,7 +214,10 @@ class pdf extends Component {
                       justifyContent: 'center',
                       alignItems: 'flex-start'
                     }}>
-                      <Text style={s.bold}>Download</Text>
+                      <Text style={{
+                        color:this.state.border,
+                        fontSize:db.state.width/30
+                      }}>Download</Text>
                       <Text style={s.textSamar}>Download {(this.state.data["id_kat"] == 1) ? "Peraturan Daerah" : "Peraturan Bupati"} </Text>
                     </View>
                   </TouchableOpacity>
@@ -265,7 +285,7 @@ class pdf extends Component {
             </View>
             {db.renderSocial()}
           </ScrollView>
-          {db.renderBottom()}
+          {db.renderBottom('',this.props.navigation)}
         </View>
       );
     }
