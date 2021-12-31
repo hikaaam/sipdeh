@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,11 @@ import {
   Alert,
   StyleSheet,
   Image,
+  Animated,
 } from 'react-native';
-import {SliderBox} from 'react-native-image-slider-box';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Feather';
-import Icon2 from 'react-native-vector-icons/FontAwesome';
 import db from '../../db';
 var s = require('../../../assets/styles/home');
 
@@ -73,6 +72,7 @@ class home extends Component {
     super(props);
     this.state = {
       images: [
+        require('../../../assets/images/b4.jpg'),
         require('../../../assets/images/2.jpg'),
         require('../../../assets/images/12.jpg'),
         require('../../../assets/images/b1.jpg'),
@@ -85,6 +85,41 @@ class home extends Component {
       border: !db.state.darkmode ? db.state.lightbox : db.state.darkbox,
     };
   }
+
+  box1X = new Animated.Value(-800);
+  box2X = new Animated.Value(800);
+  box1Scale = new Animated.Value(0.5);
+  box2Scale = new Animated.Value(0.5);
+
+  showAnimation = () => {
+    Animated.parallel([
+      Animated.timing(this.box1X, {
+        useNativeDriver: true,
+        toValue: 0,
+        duration: 300,
+      }),
+      Animated.timing(this.box2X, {
+        useNativeDriver: true,
+        toValue: 0,
+        duration: 300,
+      }),
+    ]).start(() => {
+      Animated.parallel([
+        Animated.spring(this.box1Scale, {
+          useNativeDriver: true,
+          toValue: 1,
+          friction: 2,
+          tension: 10,
+        }),
+        Animated.spring(this.box2Scale, {
+          useNativeDriver: true,
+          toValue: 1,
+          friction: 2,
+          tension: 10,
+        }),
+      ]).start();
+    });
+  };
 
   cardview(_title, _link, _icon, _color, _size, _fontsize) {
     var tulisan = 'Produk Hukum';
@@ -165,8 +200,7 @@ class home extends Component {
                 fontWeight: '700',
                 color: this.state.border,
               }}>
-              {' '}
-              {_title}{' '}
+              {_title}
             </Text>
             <Text style={styles.tulisan}>{tulisan}</Text>
           </View>
@@ -204,23 +238,21 @@ class home extends Component {
         dotsLength={images.length}
         activeDotIndex={activeSlide}
         dotStyle={{
-          width: 12,
-          height: 12,
-          borderRadius: 10,
-          marginHorizontal: 8,
+          width: 20,
           backgroundColor: db.state.lightheader,
         }}
-        inactiveDotStyle={
-          {
-            // Define styles for inactive dots here
-          }
-        }
+        inactiveDotStyle={{
+          // Define styles for inactive dots here
+          width: 10,
+        }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
     );
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.showAnimation();
+  }
   render() {
     return (
       <View
@@ -248,11 +280,37 @@ class home extends Component {
             />
             {this.pagination}
 
-            <View style={styles.CardContainer}>
+            <Animated.View
+              style={[
+                styles.CardContainer,
+                {
+                  transform: [
+                    {
+                      scale: this.box1Scale ?? 0.5,
+                    },
+                    {
+                      translateX: this.box1X ?? -800,
+                    },
+                  ],
+                },
+              ]}>
               {this.cardview('Perda', 'perda', 'folder', 'red', 52, 18)}
               {this.cardview('Perbup', 'perbup', 'folder', '#2c91e1', 52, 18)}
-            </View>
-            <View style={styles.CardContainer}>
+            </Animated.View>
+            <Animated.View
+              style={[
+                styles.CardContainer,
+                {
+                  transform: [
+                    {
+                      scale: this.box2Scale ?? 0.5,
+                    },
+                    {
+                      translateX: this.box2X ?? 800,
+                    },
+                  ],
+                },
+              ]}>
               {this.cardview('Statisik', 'pie', 'pie-chart', '#4eaf4e', 52, 18)}
               {this.cardview(
                 'Penyusunan',
@@ -262,7 +320,7 @@ class home extends Component {
                 52,
                 18,
               )}
-            </View>
+            </Animated.View>
           </View>
 
           {db.renderSocial()}
