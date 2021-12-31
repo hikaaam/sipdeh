@@ -255,7 +255,7 @@ class pdf extends Component {
 
                     }}
                     onPress={()=>{
-                      this.props.navigation.push('pdfeditor',{data:this.state.link})
+                      this.props.navigation.navigate('pdfeditor',{data:this.state.link})
                     }}
                     >
                       <Icon name="external-link-alt" size={30} color="white" />
