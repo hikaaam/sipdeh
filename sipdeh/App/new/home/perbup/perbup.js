@@ -8,7 +8,9 @@ import {
   RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
 import db from '../../../db';
+import {PersistPeraturan} from '../../../Redux/Actions';
 
 var s = require('../../../../assets/styles/perda');
 
@@ -16,8 +18,8 @@ class perbup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      dataSource: [],
+      isLoading: this.props?.peraturan === null,
+      dataSource: this.props?.peraturan?.[0]?.['perbup']?.[0]?.['tahun'] ?? [],
       background: db.state.darkmode ? db.state.lightbg : db.state.darkbg,
       box: db.state.darkmode ? db.state.lightbox : db.state.darkbox,
       border: !db.state.darkmode ? db.state.lightbox : db.state.darkbox,
@@ -29,17 +31,18 @@ class perbup extends Component {
   onRefresh() {
     this.setState({
       refreshing: true,
-      isLoading: true,
     });
     let link = 'http://jdih.brebeskab.go.id/android/listProduk.php';
     // let link2 = 'http://192.168.43.47/jdih_brebes-master/listProduk.php';
     fetch(link)
       .then(response => response.json())
       .then(responseJson => {
+        console.log('ListProduk', responseJson);
         this.setState({
           isLoading: false,
           dataSource: responseJson[0]['perbup'][0]['tahun'],
         });
+        this.props.PersistPeraturan(responseJson);
       })
       .catch(error => {
         this.setState({
@@ -54,6 +57,7 @@ class perbup extends Component {
       });
   }
   componentDidMount() {
+    console.log('perbup', this.props.peraturan);
     this.onRefresh();
   }
   isiperbup(data) {
@@ -133,15 +137,8 @@ class perbup extends Component {
             backgroundColor: this.state.background,
           }}>
           <ScrollView
-            // style={s.containerAsli}
-            RefreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={() => {
-                  this.onRefresh();
-                }}
-              />
-            }>
+          // style={s.containerAsli}
+          >
             {db.renderHeader()}
             <View
               style={{
@@ -225,8 +222,15 @@ class perbup extends Component {
               backgroundColor: this.state.background,
             }}>
             <ScrollView
-            // style={s.containerAsli}
-            >
+              // style={s.containerAsli}
+              RefreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => {
+                    this.onRefresh();
+                  }}
+                />
+              }>
               {db.renderHeader()}
               <View
                 style={{
@@ -294,4 +298,15 @@ class perbup extends Component {
   }
 }
 
-export default perbup;
+const mapStateToProps = state => ({
+  peraturan: state.peraturan?.peraturan,
+});
+
+const mapDispatchToProps = {
+  PersistPeraturan,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(perbup);
