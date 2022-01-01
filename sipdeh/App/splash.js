@@ -16,7 +16,7 @@ class splash extends Component {
     setTimeout(() => {
         // this.props.navigation.replace('home');
         db.getdarkmode(this.props.navigation)
-  }, 2000);
+  }, 1000);
   }
 
   render() {

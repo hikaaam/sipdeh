@@ -265,20 +265,24 @@ class home extends Component {
           {db.renderHeader()}
           <View style={{marginTop: db.state.height / 38}} />
           <View style={s.body}>
-            <Carousel
-              ref={c => {
-                this._carousel = c;
-              }}
-              data={this.state.images}
-              renderItem={this._renderItem}
-              sliderWidth={db.state.width / 1.2}
-              itemWidth={db.state.width / 1.2}
-              autoplay={true}
-              loop={true}
-              bounces={true}
-              onSnapToItem={index => this.setState({activeSlide: index})}
-            />
-            {this.pagination}
+            <View
+              style={{
+                backgroundColor: 'floralwhite',
+                borderRadius: 20,
+                height: db.state.height / 4,
+                marginBottom: 10,
+                // marginRight: db.state.width / 10,
+              }}>
+              <Image
+                style={{
+                  width: db.state.width / 1.2,
+                  height: '100%',
+                }}
+                source={require('../../../assets/images/b4.jpg')}
+                resizeMode="cover"
+                borderRadius={20}
+              />
+            </View>
 
             <Animated.View
               style={[

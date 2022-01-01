@@ -102,6 +102,7 @@ class DB extends Component {
           if (value.status) {
             this.state.darkmode = true;
             navigasi.replace('home');
+            
           } else {
             this.state.darkmode = false;
             navigasi.replace('home');
@@ -126,12 +127,12 @@ class DB extends Component {
 
       AsyncStorage.setItem('darkmode', JSON.stringify(data));
       this.state.darkmode = false;
-      navigasi.replace('home');
+      navigasi.navigate('home');
     } else {
       let data = {status: true};
       AsyncStorage.setItem('darkmode', JSON.stringify(data));
       this.state.darkmode = true;
-      navigasi.replace('home');
+      navigasi.navigate('home');
     }
   }
   GetAccount() {
@@ -236,7 +237,7 @@ class DB extends Component {
               marginBottom: 5,
             }}
             onPress={() => {
-              navigasi.replace('notifikasi');
+              navigasi.navigate('notifikasi');
             }}
             disabled={notifikasi}>
             <View
@@ -277,9 +278,9 @@ class DB extends Component {
                       let id = data_profile.id;
                       let username = data_profile.username;
                       if (id == '4' || username == 'jdihbrebes') {
-                        navigasi.replace('penyusunanall', {data: ' '});
+                        navigasi.navigate('penyusunanall', {data: ' '});
                       } else {
-                        navigasi.replace('penyusunan', {data: ' '});
+                        navigasi.navigate('penyusunan', {data: ' '});
                       }
                     } else {
                       Alert.alert(
@@ -293,7 +294,7 @@ class DB extends Component {
                           },
                           {
                             text: 'OK',
-                            onPress: () => navigasi.replace('login'),
+                            onPress: () => navigasi.navigate('login'),
                           },
                         ],
                         {cancelable: false},
@@ -336,7 +337,7 @@ class DB extends Component {
               marginBottom: 5,
             }}
             onPress={() => {
-              navigasi.replace('home');
+              navigasi.navigate('home');
             }}
             disabled={home}>
             <View
@@ -378,10 +379,10 @@ class DB extends Component {
                   await AsyncStorage.getItem('profile').then(value => {
                     if (value) {
                       console.log(value);
-                      navigasi.replace('profile');
+                      navigasi.navigate('profile');
                     } else {
                       console.log(value);
-                      navigasi.replace('login');
+                      navigasi.navigate('login');
                     }
                   });
                 })();
